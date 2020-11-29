@@ -7,7 +7,114 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-box{
+  border: 1px solid gray;
+  height: 43px;
+  border-radius: 2px;
+  padding: 2px 10px;
+  width: 100%;
+}
+
+.input-box input[type=text]{
+  height: 40px;
+}
+
+.row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+input[type = text]{
+    border: none;
+    border-radius: 5px;
+    height: 20px;
+    width: 100%;
+}
+
+.add-button{
+  background-color:#339af0;
+  color: white;
+  height: 38px;
+  width: 38px;
+  border: none;
+  border-radius: 5px;
+}
+
+.width-70{
+  max-width: 400px;
+  
+  width: 70%;
+}
+
+.list-area{
+  border: 1px solid gray;
+  border-radius: 2px;
+  height: 60%;
+  min-height: 80%;
+  height: 400px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.red{
+  color: red;
+}
+
+.li-writing{
+  flex-grow: 2;
+  
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+input[type=checkbox]{
+  margin-left: 5px;
+  width: 15px;
+  height: 15px;
+}
+
+.li-button{
+  background-color: transparent;
+  border: none;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.li-item{
+  background-color: #dcd5c4;
+  /* margin-bottom: 10px; */
+}
+
+.completed{
+  text-decoration: line-through;
+  color: gray;
+}
+
+.spacer{
+  height: 50px;
+}
+
+.spc-btw{
+  justify-content: space-between;
+}
+
+.list-id input[type=text]{
+  width: 80px;
+}
+
+@media(max-width: 379){
+
+  .width-70{
+    width: 100%;
+  }
+
 }

@@ -23,31 +23,42 @@ webServer.get('/', (req, res) => {
 
 
 webServer.get('/items', async (req, res) => {
-    console.log(req.headers.listid);
-    const items = await ListItem.find({ listId: req.headers.listid}).exec();
-    const objToSend = {
-        id: req.headers.listid,
-        itemList: items
+    try {
+        const items = await ListItem.find({ listId: req.headers.listid }).exec();
+        const objToSend = {
+            id: req.headers.listid,
+            itemList: items
+        }
+        res.json(objToSend);
+    } catch (e) {
+        res.status(400);
     }
-    res.json(objToSend);
 });
 
 
 webServer.post('/items', async (req, res) => {
-    const newListItem = new ListItem({ text: req.body.text, completed: false, listId: req.headers.listid });
-    const response = await newListItem.save();
-    res.json(response);
+    try {
+        const newListItem = new ListItem({ text: req.body.text, completed: false, listId: req.headers.listid });
+        const response = await newListItem.save();
+        res.status(201);
+        res.json(response);
+    }
+    catch (e) {
+        console.warn(e);
+        res.status(400);
+    }
 })
 
 
-webServer.delete('/items/:itemId', async(req, res)=>{
+webServer.delete('/items/:itemId', async (req, res) => {
     const id = req.params.itemId;
-    try{
-    let updateItem = await ListItem.findByIdAndDelete(id);
-        res.json(updateItem);
+    try {
+        await ListItem.findByIdAndDelete(id);
+        res.json(`{message: ${id} has been deleted}`);
     }
-    catch(e){
+    catch (e) {
         console.warn(e);
+        res.status(400);
     }
 })
 
@@ -55,16 +66,17 @@ webServer.delete('/items/:itemId', async(req, res)=>{
 webServer.patch('/items/:itemId', async (req, res) => {
     const id = req.params.itemId;
     try {
-        await ListItem.findByIdAndUpdate(id, {completed: req.body.completed});
+        await ListItem.findByIdAndUpdate(id, { completed: req.body.completed });
+        res.status(200)
     }
+
     catch (e) {
+        res.status(400);
         console.warn(e);
     }
-    res.json(`{message: ${id} has been deleted}`);
-
 })
 
 
-webServer.listen(port, '0.0.0.0', () => {
-    console.log(`server listening on 0.0.0.0:${port}`)
+webServer.listen(port, () => {
+    console.log(`server listening on port ${port}`)
 })

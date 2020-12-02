@@ -13,7 +13,7 @@ function App() {
   const [listViewChildren, setListViewChildren] = useState([]);
 
   let childrenList = listViewChildren.map(element => {
-    const color = listViewChildren.indexOf(element) % 2 === 0 ? '#ffffff' :'#f2f2f2';
+    const color = listViewChildren.indexOf(element) % 2 === 0 ? '#ffffff' : '#f2f2f2';
     return <ListItem
       backgroundColor={color}
       item={element}
@@ -32,7 +32,7 @@ function App() {
 
   //callback functions
   async function changeList(newlist) {
-    
+
     if (newlist.length === 6) {
       localStorage.setItem('listId', newlist.toLowerCase());
       const newState = await makeGetCall(localStorage.getItem('listId'));
@@ -43,10 +43,11 @@ function App() {
 
   async function addItemToListView(value) {
     if (value.length > 0) {
-      
+
       const response = await makePostCall(value, localStorage.getItem('listId'));
-      
-      setListViewChildren(prevState => [...prevState, response.data]);
+      if (response.status === 201) {
+        setListViewChildren(prevState => [...prevState, response.data]);
+      }
     }
   }
 
@@ -58,21 +59,21 @@ function App() {
     }
   }
 
-  async function updateCompletedStatus(completed, id){
-    const response = await makeUpdateCall(completed, localStorage.getItem('listID'),id);
-    if(response.status === 200){
-      const index = listViewChildren.findIndex(element=>element.id===id);
+  async function updateCompletedStatus(completed, id) {
+    const response = await makeUpdateCall(completed, localStorage.getItem('listID'), id);
+    if (response.status === 200) {
+      const index = listViewChildren.findIndex(element => element.id === id);
       listViewChildren[index] = response.data;
     }
   }
 
   async function handleGetRequest() {
     const response = await makeGetCall(localStorage.getItem('listId'));
-    if(response.status===200){
-    const newState = response.data;
-    localStorage.setItem('listId', newState.id);
-    setListID(newState.id);
-    setListViewChildren(newState.itemList);
+    if (response.status === 200) {
+      const newState = response.data;
+      localStorage.setItem('listId', newState.id);
+      setListID(newState.id);
+      setListViewChildren(newState.itemList);
     }
   }
 
